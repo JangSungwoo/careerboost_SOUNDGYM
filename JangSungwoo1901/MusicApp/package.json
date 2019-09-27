@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/slider": "^2.0.0",
     "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
     "react": "16.9.0",
     "react-native": "0.61.1",
     "react-native-track-player": "^1.1.8"

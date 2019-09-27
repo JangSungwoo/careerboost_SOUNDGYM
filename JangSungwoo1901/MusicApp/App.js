@@ -78,11 +78,13 @@ export default function App() {
   }
 
   return (
+    <View>
       <Player
          onPrevious={_skipToPrevious}
          onNext={_skipToNext}
          onTogglePlayback={togglePlayback}
-       ></Player>
+         ></Player>
+    </View>
   );
 };
 

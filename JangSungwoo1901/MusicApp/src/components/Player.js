@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from "prop-types";
 import {
   StyleSheet,
   View,
@@ -17,17 +18,17 @@ import moment from 'moment';
 
 var isPlaying = false;
 export default function Player(props) {
-
+    
     //track 상태 확인 
     const playbackState = usePlaybackState();
-
+    
     //재생/일시정지 상태변수 선언 
     // const [isPlaying, setIsPlaying] = useState(false);
     //track 정보 
     const [trackTitle, setTrackTitle] = useState("");
-    const [trackArtwork, setTrackArtwork] = useState("");
+    const [trackArtwork, setTrackArtwork] = useState("https://drive.google.com/uc?export=download&id=1d_tJkmpMmXQxrGzVYvzWuI9PkWpXIpTb");
     const [trackArtist, setTrackArtist] = useState("");
-
+    
     //track 변경 시 동작 
     useTrackPlayerEvents(["playback-track-changed"], async event => {
         if (event.type === TrackPlayer.TrackPlayerEvents.PLAYBACK_TRACK_CHANGED) {
@@ -45,11 +46,11 @@ export default function Player(props) {
     isPlaying = false;
     if (playbackState === TrackPlayer.STATE_PLAYING ||
         playbackState === TrackPlayer.STATE_BUFFERING) {
-        isPlaying = true;
-    }
-
-    return (
-        <View style={styles.card}>
+            isPlaying = true;
+        }
+        
+        return (
+            <View style={styles.card}>
             <Image style={styles.cover} source={{ uri: trackArtwork }}></Image>
             <Text style={styles.title}>{trackTitle}</Text>
             <Text style={styles.artist}>{trackArtist}</Text>
@@ -63,11 +64,14 @@ export default function Player(props) {
     )
 }
 
+TogglePlaybackButton.proptypes={
+    onPress: PropTypes.func.isRequired
+}
 //재생/일시정지 버튼
 function TogglePlaybackButton({ onPress }) {
     var icon = isPlaying
-        ? require('../images/baseline_pause_black_48dp.png')
-        : require('../images/baseline_play_arrow_black_48dp.png');
+    ? require('../images/baseline_pause_black_48dp.png')
+    : require('../images/baseline_play_arrow_black_48dp.png');
     return (
         <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
             <Image source={icon}></Image>
@@ -75,6 +79,9 @@ function TogglePlaybackButton({ onPress }) {
     );
 }
 
+PreviousButton.proptypes={
+    onPress: PropTypes.func.isRequired
+}
 //이전음악으로 이동버튼
 function PreviousButton({ onPress }) {
     return (
@@ -84,6 +91,9 @@ function PreviousButton({ onPress }) {
     );
 }
 
+PreviousButton.propTypes={
+    onPress: PropTypes.func.isRequired
+}
 //다음음악으로 이동버튼
 function NextButton({ onPress }) {
     return (
