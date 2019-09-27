@@ -48,6 +48,32 @@ export default function App() {
     });
   }, []);
 
+  //track 재생/일시정지 버튼 눌렀을때 동작
+  async function togglePlayback() {
+    //현재 track 가져오기 
+    const currentTrack = await TrackPlayer.getCurrentTrack();
+    //현재 track  
+    //null : 초기화 후 재생
+    //not null : 상태에 따른 재생/일시정지
+    if (currentTrack == null) {
+      await TrackPlayer.reset();
+      await TrackPlayer.add(playlistData);
+      await TrackPlayer.play();
+      setIsPlaying(true);
+    } else{
+      //TrackPlayer의 상태
+      // STATE_PAUSED -> play() 
+      // STATE_PLAY -> pause() 
+      if (playbackState === TrackPlayer.STATE_PAUSED) {
+        await TrackPlayer.play();
+        setIsPlaying(true);
+      } else {
+        await TrackPlayer.pause();
+        setIsPlaying(false);
+      }
+    }
+  }
+
   //재생/일시정지 버튼
   function TogglePlaybackButton({ onPress }) {
     var icon = isPlaying
@@ -63,7 +89,7 @@ export default function App() {
   return (
     <View style={styles.controls}>
       <PreviousButton onPress={_skipToPrevious}></PreviousButton>
-      <TogglePlaybackButton onPress={() => setIsPlaying(!isPlaying)}></TogglePlaybackButton>
+      <TogglePlaybackButton onPress={togglePlayback}></TogglePlaybackButton>
       <NextButton onPress={_skipToNext}></NextButton>
     </View>
   );
