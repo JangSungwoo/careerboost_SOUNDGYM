@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -14,27 +14,30 @@ import {
   Image,
 } from 'react-native';
 
+
 export default function App() {
+
   //재생/일시정지 상태변수 선언 
-  const [isPlaying,setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   //재생/일시정지 버튼
   function TogglePlaybackButton({ onPress }) {
     var icon = isPlaying
-    ? require('./src/images/baseline_pause_black_48dp.png')
-    : require('./src/images/baseline_play_arrow_black_48dp.png');
+      ? require('./src/images/baseline_pause_black_48dp.png')
+      : require('./src/images/baseline_play_arrow_black_48dp.png');
     return (
       <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
-       <Image source={icon}></Image>
+        <Image source={icon}></Image>
       </TouchableOpacity>
     );
   }
-  
+
 
   return (
     <View style={styles.controls}>
-        <PreviousButton onPress={_skipToPrevious}></PreviousButton>
-        <TogglePlaybackButton onPress={()=>setIsPlaying(!isPlaying)}></TogglePlaybackButton>
-        <NextButton onPress={_skipToNext}></NextButton>
+      <PreviousButton onPress={_skipToPrevious}></PreviousButton>
+      <TogglePlaybackButton onPress={() => setIsPlaying(!isPlaying)}></TogglePlaybackButton>
+      <NextButton onPress={_skipToNext}></NextButton>
     </View>
   );
 };
@@ -59,7 +62,7 @@ function NextButton({ onPress }) {
 
 //이전음악으로 이동
 function _skipToPrevious() {
-  
+
 }
 
 //다음음악으로 이동
