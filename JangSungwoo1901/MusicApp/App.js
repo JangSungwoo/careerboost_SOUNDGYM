@@ -22,6 +22,7 @@ import {
   useTrackPlayerProgress
 } from 'react-native-track-player/lib';
 import playlistData from './src/data/playlist.json';
+import moment from 'moment';
 
 export default function App() {
 
@@ -155,7 +156,9 @@ async function _skipToNext() {
 }
 
 function MusicSlider() {
-  const progress = useTrackPlayerProgress()  
+  const progress = useTrackPlayerProgress() 
+  var positionTime = moment(progress.position * 1000).format('mm:ss')
+  var durationTime = moment(progress.duration * 1000).format('mm:ss')
   return (
     <View style={styles.progress}>
       <Slider
@@ -165,6 +168,10 @@ function MusicSlider() {
         value={progress.position}
         step={1}
           ></Slider>
+      <View style={styles.trackTime}>
+        <Text>{positionTime}</Text>
+        <Text>{durationTime}</Text>
+      </View>
     </View>
   );
 }
@@ -207,4 +214,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "column"
   },
+  trackTime: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  }
 });
