@@ -88,7 +88,7 @@ export default function App() {
 
   return (
     <View style={styles.controls}>
-      <PreviousButton onPress={_skipToPrevious}></PreviousButton>
+      <PreviousButton onPress={_skipToPrevious} ></PreviousButton>
       <TogglePlaybackButton onPress={togglePlayback}></TogglePlaybackButton>
       <NextButton onPress={_skipToNext}></NextButton>
     </View>
@@ -114,13 +114,17 @@ function NextButton({ onPress }) {
 }
 
 //이전음악으로 이동
-function _skipToPrevious() {
-
+async function _skipToPrevious() {
+  try {
+    await TrackPlayer.skipToPrevious();
+  } catch (_) {}
 }
 
 //다음음악으로 이동
-function _skipToNext() {
-
+async function _skipToNext() {
+  try {
+    await TrackPlayer.skipToNext();
+  } catch (_) {}
 }
 const styles = StyleSheet.create({
   controlButtonContainer: {
