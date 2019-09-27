@@ -18,7 +18,8 @@ import Slider from '@react-native-community/slider';
 import TrackPlayer from 'react-native-track-player';
 import {
   usePlaybackState,
-  useTrackPlayerEvents
+  useTrackPlayerEvents,
+  useTrackPlayerProgress
 } from 'react-native-track-player/lib';
 import playlistData from './src/data/playlist.json';
 
@@ -111,6 +112,7 @@ export default function App() {
       <Image style={styles.cover} source={{uri:trackArtwork}}></Image>
       <Text style={styles.title}>{trackTitle}</Text>
       <Text style={styles.artist}>{trackArtist}</Text>
+      <MusicSlider></MusicSlider>
         <View style={styles.controls}>
           <PreviousButton onPress={_skipToPrevious} ></PreviousButton>
           <TogglePlaybackButton onPress={togglePlayback}></TogglePlaybackButton>
@@ -151,6 +153,21 @@ async function _skipToNext() {
     await TrackPlayer.skipToNext();
   } catch (_) {}
 }
+
+function MusicSlider() {
+  const progress = useTrackPlayerProgress()  
+  return (
+    <View style={styles.progress}>
+      <Slider
+        style={{ width: "100%" }}
+        maximumValue={progress.duration}
+        minimumValue={0}
+        value={progress.position}
+        step={1}
+          ></Slider>
+    </View>
+  );
+}
 const styles = StyleSheet.create({
   card: {
     width: "100%",
@@ -183,5 +200,11 @@ const styles = StyleSheet.create({
   },
   artist: {
     fontWeight: "bold"
+  },
+  progress: {
+    // height: ,
+    width: "90%",
+    marginTop: 10,
+    flexDirection: "column"
   },
 });
