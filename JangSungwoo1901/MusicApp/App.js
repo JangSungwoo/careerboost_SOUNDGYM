@@ -14,6 +14,7 @@ import {
   Image,
   Text,
 } from 'react-native';
+import Slider from '@react-native-community/slider';
 import TrackPlayer from 'react-native-track-player';
 import {
   usePlaybackState,
