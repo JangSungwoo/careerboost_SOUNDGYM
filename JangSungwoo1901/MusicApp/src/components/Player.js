@@ -62,6 +62,7 @@ export default function Player(props) {
         </View>
     )
 }
+
 //재생/일시정지 버튼
 function TogglePlaybackButton({ onPress }) {
     var icon = isPlaying
@@ -91,8 +92,6 @@ function NextButton({ onPress }) {
         </TouchableOpacity>
     );
 }
-
-
 
 //재생위치 변경
 _seekTo = async (value) => {
@@ -132,6 +131,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         shadowOpacity: 0.1,
         alignItems: "center",
+        justifyContent: 'center',
         shadowColor: "black",
         backgroundColor: "white",
         shadowOffset: { width: 0, height: 1 }
