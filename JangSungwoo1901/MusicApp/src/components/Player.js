@@ -7,14 +7,15 @@ import {
     Image,
     Text,
 } from 'react-native';
-import Slider from '@react-native-community/slider';
 import TrackPlayer from 'react-native-track-player';
 import {
     usePlaybackState,
     useTrackPlayerEvents,
-    useTrackPlayerProgress
 } from 'react-native-track-player/lib';
-import moment from 'moment';
+import TogglePlaybackButton from './TogglePlaybackButton';
+import PreviousButton from './PreviousButton';
+import NextButton from './NextButton';
+import MusicSlider from './MusicSlider';
 
 var isPlaying = false;
 Player.proptypes={
@@ -56,83 +57,14 @@ export default function Player(props) {
 
     return (
         <View style={styles.card}>
-            <Image style={styles.cover} source={{ uri: trackArtwork }}></Image>
+            <Image style={styles.cover} source={{ uri: trackArtwork }}/>
             <Text style={styles.title}>{trackTitle}</Text>
             <Text style={styles.artist}>{trackArtist}</Text>
             <MusicSlider></MusicSlider>
             <View style={styles.controls}>
-                <PreviousButton onPress={onPrevious} ></PreviousButton>
-                <TogglePlaybackButton onPress={onTogglePlayback}></TogglePlaybackButton>
-                <NextButton onPress={onNext}></NextButton>
-            </View>
-        </View>
-    )
-}
-
-TogglePlaybackButton.proptypes = {
-    onPress: PropTypes.func.isRequired
-}
-//재생/일시정지 버튼
-function TogglePlaybackButton({ onPress }) {
-    var icon = isPlaying
-        ? require('../images/baseline_pause_black_48dp.png')
-        : require('../images/baseline_play_arrow_black_48dp.png');
-    return (
-        <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
-            <Image source={icon}></Image>
-        </TouchableOpacity>
-    );
-}
-
-PreviousButton.proptypes = {
-    onPress: PropTypes.func.isRequired
-}
-//이전음악으로 이동버튼
-function PreviousButton({ onPress }) {
-    return (
-        <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
-            <Image source={require('../images/baseline_skip_previous_black_48dp.png')}></Image>
-        </TouchableOpacity>
-    );
-}
-
-PreviousButton.propTypes = {
-    onPress: PropTypes.func.isRequired
-}
-//다음음악으로 이동버튼
-function NextButton({ onPress }) {
-    return (
-        <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
-            <Image source={require('../images/baseline_skip_next_black_48dp.png')}></Image>
-        </TouchableOpacity>
-    );
-}
-
-//재생위치 변경
-_seekTo = async (value) => {
-    try {
-        await TrackPlayer.seekTo(value);
-    } catch (_) { }
-}
-
-//음악 슬라이더
-function MusicSlider() {
-    const progress = useTrackPlayerProgress()
-    var positionTime = moment(progress.position * 1000).format('mm:ss')
-    var durationTime = moment(progress.duration * 1000).format('mm:ss')
-    return (
-        <View style={styles.progress}>
-            <Slider
-                style={{ width: "100%" }}
-                maximumValue={progress.duration}
-                minimumValue={0}
-                value={progress.position}
-                step={1}
-                onSlidingComplete={(val) => _seekTo(val)}
-            ></Slider>
-            <View style={styles.trackTime}>
-                <Text>{positionTime}</Text>
-                <Text>{durationTime}</Text>
+                <PreviousButton onPress={onPrevious} />
+                <TogglePlaybackButton isPlaying={isPlaying} onPress={onTogglePlayback}/>
+                <NextButton onPress={onNext}/>
             </View>
         </View>
     );
@@ -170,16 +102,5 @@ const styles = StyleSheet.create({
     },
     artist: {
         fontWeight: "bold"
-    },
-    progress: {
-        // height: ,
-        width: "90%",
-        marginTop: 10,
-        flexDirection: "column"
-    },
-    trackTime: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }
+    },   
 });
