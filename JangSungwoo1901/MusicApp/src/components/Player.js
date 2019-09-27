@@ -1,34 +1,39 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from "prop-types";
 import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-  Text,
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Image,
+    Text,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import TrackPlayer from 'react-native-track-player';
 import {
-  usePlaybackState,
-  useTrackPlayerEvents,
-  useTrackPlayerProgress
+    usePlaybackState,
+    useTrackPlayerEvents,
+    useTrackPlayerProgress
 } from 'react-native-track-player/lib';
 import moment from 'moment';
 
 var isPlaying = false;
+Player.proptypes={
+    onPrevious : PropTypes.func.isRequired,
+    onNext : PropTypes.func.isRequired,
+    onTogglePlayback : PropTypes.func.isRequired,
+}
 export default function Player(props) {
-    
+
     //track 상태 확인 
     const playbackState = usePlaybackState();
-    
+
     //재생/일시정지 상태변수 선언 
     // const [isPlaying, setIsPlaying] = useState(false);
     //track 정보 
     const [trackTitle, setTrackTitle] = useState("");
     const [trackArtwork, setTrackArtwork] = useState("https://drive.google.com/uc?export=download&id=1d_tJkmpMmXQxrGzVYvzWuI9PkWpXIpTb");
     const [trackArtist, setTrackArtist] = useState("");
-    
+
     //track 변경 시 동작 
     useTrackPlayerEvents(["playback-track-changed"], async event => {
         if (event.type === TrackPlayer.TrackPlayerEvents.PLAYBACK_TRACK_CHANGED) {
@@ -40,17 +45,17 @@ export default function Player(props) {
             setTrackArtwork(track.artwork);
         }
     });
-    
+
     const { onPrevious, onNext, onTogglePlayback } = props;
-    
+
     isPlaying = false;
     if (playbackState === TrackPlayer.STATE_PLAYING ||
         playbackState === TrackPlayer.STATE_BUFFERING) {
-            isPlaying = true;
-        }
-        
-        return (
-            <View style={styles.card}>
+        isPlaying = true;
+    }
+
+    return (
+        <View style={styles.card}>
             <Image style={styles.cover} source={{ uri: trackArtwork }}></Image>
             <Text style={styles.title}>{trackTitle}</Text>
             <Text style={styles.artist}>{trackArtist}</Text>
@@ -64,14 +69,14 @@ export default function Player(props) {
     )
 }
 
-TogglePlaybackButton.proptypes={
+TogglePlaybackButton.proptypes = {
     onPress: PropTypes.func.isRequired
 }
 //재생/일시정지 버튼
 function TogglePlaybackButton({ onPress }) {
     var icon = isPlaying
-    ? require('../images/baseline_pause_black_48dp.png')
-    : require('../images/baseline_play_arrow_black_48dp.png');
+        ? require('../images/baseline_pause_black_48dp.png')
+        : require('../images/baseline_play_arrow_black_48dp.png');
     return (
         <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
             <Image source={icon}></Image>
@@ -79,7 +84,7 @@ function TogglePlaybackButton({ onPress }) {
     );
 }
 
-PreviousButton.proptypes={
+PreviousButton.proptypes = {
     onPress: PropTypes.func.isRequired
 }
 //이전음악으로 이동버튼
@@ -91,7 +96,7 @@ function PreviousButton({ onPress }) {
     );
 }
 
-PreviousButton.propTypes={
+PreviousButton.propTypes = {
     onPress: PropTypes.func.isRequired
 }
 //다음음악으로 이동버튼
