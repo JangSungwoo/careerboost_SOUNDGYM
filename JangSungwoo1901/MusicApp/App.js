@@ -155,6 +155,14 @@ async function _skipToNext() {
   } catch (_) {}
 }
 
+//재생위치 변경
+_seekTo = async (value) =>{
+  try{
+     await TrackPlayer.seekTo(value);
+  }catch(_){}
+}
+
+//음악 슬라이더
 function MusicSlider() {
   const progress = useTrackPlayerProgress() 
   var positionTime = moment(progress.position * 1000).format('mm:ss')
@@ -167,6 +175,7 @@ function MusicSlider() {
         minimumValue={0}
         value={progress.position}
         step={1}
+        onSlidingComplete={(val) => _seekTo(val)}
           ></Slider>
       <View style={styles.trackTime}>
         <Text>{positionTime}</Text>
