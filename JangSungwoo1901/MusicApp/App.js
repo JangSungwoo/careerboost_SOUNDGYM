@@ -12,10 +12,12 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Text,
 } from 'react-native';
 import TrackPlayer from 'react-native-track-player';
 import {
-  usePlaybackState
+  usePlaybackState,
+  useTrackPlayerEvents
 } from 'react-native-track-player/lib';
 import playlistData from './src/data/playlist.json';
 
@@ -47,6 +49,23 @@ export default function App() {
       ]
     });
   }, []);
+
+  //track 정보 
+  const [trackTitle, setTrackTitle] = useState("");
+  const [trackArtwork, setTrackArtwork] = useState("");
+  const [trackArtist, setTrackArtist] = useState("");
+  
+  //track 변경 시 동작 
+  useTrackPlayerEvents(["playback-track-changed"], async event => {
+    if (event.type === TrackPlayer.TrackPlayerEvents.PLAYBACK_TRACK_CHANGED) {
+      //변경된 track의 정보를 가져온다.
+      const track = await TrackPlayer.getTrack(event.nextTrack);
+      //track의 정보를 변수에 설정한다.
+      setTrackTitle(track.title);
+      setTrackArtist(track.artist);
+      setTrackArtwork(track.artwork);
+    }
+  });
 
   //track 재생/일시정지 버튼 눌렀을때 동작
   async function togglePlayback() {
@@ -87,10 +106,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.controls}>
-      <PreviousButton onPress={_skipToPrevious} ></PreviousButton>
-      <TogglePlaybackButton onPress={togglePlayback}></TogglePlaybackButton>
-      <NextButton onPress={_skipToNext}></NextButton>
+    <View style={styles.card}>
+      <Image style={styles.cover} source={{uri:trackArtwork}}></Image>
+      <Text style={styles.title}>{trackTitle}</Text>
+      <Text style={styles.artist}>{trackArtist}</Text>
+        <View style={styles.controls}>
+          <PreviousButton onPress={_skipToPrevious} ></PreviousButton>
+          <TogglePlaybackButton onPress={togglePlayback}></TogglePlaybackButton>
+          <NextButton onPress={_skipToNext}></NextButton>
+        </View>
     </View>
   );
 };
@@ -127,6 +151,18 @@ async function _skipToNext() {
   } catch (_) {}
 }
 const styles = StyleSheet.create({
+  card: {
+    width: "100%",
+    height: "100%",
+    elevation: 1,
+    borderRadius: 4,
+    shadowRadius: 2,
+    shadowOpacity: 0.1,
+    alignItems: "center",
+    shadowColor: "black",
+    backgroundColor: "white",
+    shadowOffset: { width: 0, height: 1 }
+  },
   controlButtonContainer: {
     flex: 1,
     alignItems: 'center',
@@ -134,5 +170,17 @@ const styles = StyleSheet.create({
   controls: {
     flexDirection: 'row',
     justifyContent: 'center'
-  }
+  },
+  cover: {
+    width: 300,
+    height: 300,
+    marginTop: 20,
+    backgroundColor: "grey",
+  },
+  title: {
+    marginTop: 10
+  },
+  artist: {
+    fontWeight: "bold"
+  },
 });
