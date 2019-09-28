@@ -12,6 +12,7 @@ TogglePlaybackButton.proptypes = {
 }
 //재생/일시정지 버튼
 export default function TogglePlaybackButton({isPlaying, onPress }) {
+    // console.log("TogglePlaybackButton => isPlaying : " + isPlaying);
     var icon = isPlaying
         ? require('../images/baseline_pause_black_48dp.png')
         : require('../images/baseline_play_arrow_black_48dp.png');

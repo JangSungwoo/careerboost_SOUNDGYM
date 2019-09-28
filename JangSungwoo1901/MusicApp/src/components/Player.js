@@ -17,19 +17,17 @@ import PreviousButton from './PreviousButton';
 import NextButton from './NextButton';
 import MusicSlider from './MusicSlider';
 
-var isPlaying = false;
-Player.proptypes={
-    onPrevious : PropTypes.func.isRequired,
-    onNext : PropTypes.func.isRequired,
-    onTogglePlayback : PropTypes.func.isRequired,
+// var isPlaying = false;
+Player.proptypes = {
+    isPlaying: PropTypes.bool.isRequired,
+    onPrevious: PropTypes.func.isRequired,
+    onNext: PropTypes.func.isRequired,
+    onTogglePlayback: PropTypes.func.isRequired,
 }
+
 export default function Player(props) {
+    // console.log("Player");    
 
-    //track 상태 확인 
-    const playbackState = usePlaybackState();
-
-    //재생/일시정지 상태변수 선언 
-    // const [isPlaying, setIsPlaying] = useState(false);
     //track 정보 
     const [trackTitle, setTrackTitle] = useState("");
     const [trackArtwork, setTrackArtwork] = useState("https://drive.google.com/uc?export=download&id=1d_tJkmpMmXQxrGzVYvzWuI9PkWpXIpTb");
@@ -46,25 +44,19 @@ export default function Player(props) {
             setTrackArtwork(track.artwork);
         }
     });
-
-    const { onPrevious, onNext, onTogglePlayback } = props;
-
-    isPlaying = false;
-    if (playbackState === TrackPlayer.STATE_PLAYING ||
-        playbackState === TrackPlayer.STATE_BUFFERING) {
-        isPlaying = true;
-    }
+  
+    const { isPlaying, onPrevious, onNext, onTogglePlayback } = props;
 
     return (
         <View style={styles.card}>
-            <Image style={styles.cover} source={{ uri: trackArtwork }}/>
+            <Image style={styles.cover} source={{ uri: trackArtwork }} />
             <Text style={styles.title}>{trackTitle}</Text>
             <Text style={styles.artist}>{trackArtist}</Text>
             <MusicSlider></MusicSlider>
             <View style={styles.controls}>
                 <PreviousButton onPress={onPrevious} />
-                <TogglePlaybackButton isPlaying={isPlaying} onPress={onTogglePlayback}/>
-                <NextButton onPress={onNext}/>
+                <TogglePlaybackButton isPlaying={isPlaying} onPress={onTogglePlayback} />
+                <NextButton onPress={onNext} />
             </View>
         </View>
     );
@@ -102,5 +94,5 @@ const styles = StyleSheet.create({
     },
     artist: {
         fontWeight: "bold"
-    },   
+    },
 });

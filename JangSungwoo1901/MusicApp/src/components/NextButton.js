@@ -11,6 +11,7 @@ NextButton.propTypes = {
 }
 //다음음악으로 이동버튼
 export default function NextButton({ onPress }) {
+    // console.log("NextButton");
     return (
         <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
             <Image source={require('../images/baseline_skip_next_black_48dp.png')}/>

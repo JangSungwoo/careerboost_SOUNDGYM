@@ -28,8 +28,8 @@ export default function App() {
   const playbackState = usePlaybackState();
 
   //재생/일시정지 상태변수 선언 
-  // const [isPlaying, setIsPlaying] = useState(false);
-
+  const [isPlaying, setIsPlaying] = useState(false);
+  
   useEffect(() => {
     //TrackPlayer 설정
     TrackPlayer.setupPlayer();
@@ -53,6 +53,7 @@ export default function App() {
 
   //track 재생/일시정지 버튼 눌렀을때 동작
   async function togglePlayback() {
+    // console.log("togglePlayback of App.js");
     //현재 track 가져오기 
     const currentTrack = await TrackPlayer.getCurrentTrack();
     //현재 track  
@@ -62,24 +63,25 @@ export default function App() {
       await TrackPlayer.reset();
       await TrackPlayer.add(playlistData);
       await TrackPlayer.play();
-      // setIsPlaying(true);
+      setIsPlaying(true);
     } else{
       //TrackPlayer의 상태
       // STATE_PAUSED -> play() 
       // STATE_PLAY -> pause() 
       if (playbackState === TrackPlayer.STATE_PAUSED) {
         await TrackPlayer.play();
-        // setIsPlaying(true);
+        setIsPlaying(true);
       } else {
         await TrackPlayer.pause();
-        // setIsPlaying(false);
+        setIsPlaying(false);
       }
     }
   }
-  
+  // console.log("App.js");
   return (
     <View>
       <Player
+         isPlaying={isPlaying}
          onPrevious={_skipToPrevious}
          onNext={_skipToNext}
          onTogglePlayback={togglePlayback}

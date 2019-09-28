@@ -11,6 +11,7 @@ PreviousButton.proptypes = {
 }
 //이전음악으로 이동버튼
 export default function PreviousButton({ onPress }) {
+    // console.log("PreviousButton");
     return (
         <TouchableOpacity style={styles.controlButtonContainer} onPress={onPress}>
             <Image source={require('../images/baseline_skip_previous_black_48dp.png')}/>
