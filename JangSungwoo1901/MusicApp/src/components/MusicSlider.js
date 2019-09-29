@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         // height: ,
         width: "90%",
         marginTop: 10,
-        flexDirection: "column"
+        flexDirection: "column",
     },
     trackTime: {
         width: '100%',
