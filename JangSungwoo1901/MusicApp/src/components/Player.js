@@ -17,7 +17,7 @@ import TogglePlaybackButton from './TogglePlaybackButton';
 import PreviousButton from './PreviousButton';
 import NextButton from './NextButton';
 import MusicSlider from './MusicSlider';
-
+import { Actions } from 'react-native-router-flux';
 // var isPlaying = false;
 Player.proptypes = {
     isPlaying: PropTypes.bool.isRequired,
@@ -76,7 +76,8 @@ export default function Player(props) {
 
     function AlbumMain() {
         return (
-            <View>
+            <View style={styles.albumMain}>
+                <PlayListButton/>
                 <TouchableOpacity onPress={() => setIsClicked(true)}>
                     <Image style={styles.cover} source={{ uri: trackArtwork }} />
                 </TouchableOpacity>
@@ -89,6 +90,16 @@ export default function Player(props) {
     function AlbumInfo() {
         return (
             isClicked ? <Description /> : <AlbumMain />
+        );
+    }
+
+    function PlayListButton(){
+        return (
+            <TouchableOpacity 
+                style={styles.playlisticon}
+                onPress={()=>Actions.push("playlistScreen")}>
+                <Image source={require('../images/baseline_playlist_play_black_48dp.png')}></Image>
+            </TouchableOpacity>
         );
     }
     return (
@@ -166,5 +177,13 @@ const styles = StyleSheet.create({
     },
     descriptionText: {
         textAlign: 'center',
+    },
+    playlisticon:{
+        marginLeft:20,
+        alignSelf: 'flex-start',
+    },
+    albumMain:{
+        width: "100%",
+        alignItems: 'center'
     }
 });
